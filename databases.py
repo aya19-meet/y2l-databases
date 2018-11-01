@@ -8,18 +8,34 @@ Base.metadata.create_all(engine)
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-# Write your functions to interact with the database here :
 
-def create_product():
-  #TODO: complete the functions (you will need to change the function's inputs)
-  pass
 
-def update_product():
-  #TODO: complete the functions (you will need to change the function's inputs)
-  pass
+def create_product(name, price, quantity, description, malaks_approval, recommendation):
+	product_object = Product(
+		name=name,
+		price=price,
+		quantity=quantity,
+		description=description,
+		malaks_approval=malaks_approval,
+		recommendation=recommendation)
+	session.add(product_object)
+	session.commit()
+def update_product(name, quantity, price):
+	product_object = session.query(
+		Product).filter_by(
+		name=name).first()
+	product_object.quantity = quantity
+	product_object.price = price
+	session.commit()
+def delete_product(name):
+	session.query(Product).filter_by(
+		name=name).delete()
+	session.commit()
 
-def delete_product(id):
-  pass
 
 def get_product(id):
   pass
+
+# create_product("table",10,20,"nice comfortable for legged table", True, "very good")
+# delete_product("table")
+# create_product("chair",40,50,"black nice chair",False,"great")
